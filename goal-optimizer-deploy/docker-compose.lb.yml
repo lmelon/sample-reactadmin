@@ -1,0 +1,61 @@
+version: '3.6'
+services:
+  postgres:
+    image: postgres
+    ports:
+    - "54321:5432"
+    volumes:
+    - db_data:/var/lib/postgresql/data
+    - ./postgress-init/:/docker-entrypoint-initdb.d
+
+  graphql-engine:
+    image: hasura/graphql-engine:v1.0.0-alpha35
+    ports:
+    - "8080:8080"
+    depends_on:
+    - "postgres"
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:@postgres:5432/postgres
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
+      ## uncomment next line to set an access key
+      # HASURA_GRAPHQL_ACCESS_KEY: mysecretaccesskey
+  
+  lb:
+    image: dockercloud/haproxy
+    depends_on:
+     - process-api
+    ports:
+     - "5010:5010"
+     - "5001:5001"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  process-api:
+    image: lemon78/goal-optimizer-process:v1
+    depends_on:
+    - "graphql-engine"
+    deploy:
+      replicas: 2
+    environment:
+     - SERVICE_PORTS=5010
+     - VIRTUAL_HOST=*:5010
+
+  system-api:
+    image: lemon78/goal-optimizer-api:latest
+    depends_on:
+    - "graphql-engine"
+    deploy:
+      replicas: 2
+    environment:
+      - SERVICE_PORTS=5001
+      - VIRTUAL_HOST=*:5001
+
+  gui:
+    image: lemon78/goal-optimizer-gui:latest
+    ports:
+    - "5000:5000"
+    depends_on:
+    - "graphql-engine"
+
+volumes:
+  db_data:

@@ -1,0 +1,26 @@
+{
+  "name": "goal-optimizer-process",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-boost": "^0.1.27",
+    "boom": "^7.3.0",
+    "d3": "^5.8.0",
+    "fastify": "^1.13.4",
+    "fastify-cors": "^1.0.0",
+    "fastify-swagger": "^1.1.0",
+    "graphql": "^14.1.1",
+    "graphql-tag": "^2.10.1",
+    "node-fetch": "^2.3.0"
+  },
+  "scripts": {
+    "start": "nodemon src/server.js",
+    "build-docker": "docker build . -t lemon78/goal-optimizer-process:latest"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  }
+}

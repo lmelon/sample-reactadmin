@@ -1,0 +1,35 @@
+{
+  "name": "goal-optimizer-api",
+  "version": "0.1.0",
+  "description": "API aggregator",
+  "main": "server.ts",
+  "author": "Laurent Mélon",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "apollo-link-http": "^1.5.9",
+    "apollo-server": "^2.3.1",
+    "apollo-server-express": "^2.3.1",
+    "boom": "^7.3.0",
+    "d3": "^5.8.0",
+    "express": "^4.16.4",
+    "fastify": "^1.13.4",
+    "fastify-cors": "^1.0.0",
+    "fastify-swagger": "^1.1.0",
+    "graphql": "^14.1.1",
+    "graphql-tools": "^4.0.3",
+    "http": "^0.0.0",
+    "node-fetch": "^2.3.0",
+    "typescript": "^3.2.2"
+  },
+  "scripts": {
+    "start": "nodemon src/server.js",
+    "build-docker": "docker build . -t lemon78/goal-optimizer-api:latest"
+  },
+  "devDependencies": {
+    "@types/graphql": "^14.0.5",
+    "@types/node": "^10.12.18",
+    "@types/node-fetch": "^2.1.4",
+    "nodemon": "^1.18.9"
+  }
+}
